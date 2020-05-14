@@ -54,28 +54,30 @@
       </div>
       <div>
           <input type="checkbox" id="chk_o" value="">
-          <label for="chk_o" data-translate="label.orange" id="lo"><strong>Orange</strong></label>
+          <strong><label for="chk_o" data-translate="label.orange" id="lo">Orange</label></strong>
       </div>
     </div>
 
     <hr/>
     <!-- Plain text under a div -->
-    <div>
+    <div data-translate="label.feedback">
       Feed back
     </div>
 
     <hr/>
     <div>
       <!-- Plain text in a label, and its option -->
-      <label>Rating:</label> 
+      <label data-translate="label.rating">Rating:</label> 
       <select id="sel_rating">
       </select>
     </div>
 
     <div>
-      Responded on:
+      <span data-translate="label.respondedon">Responded on:</span>
       <input type="text" name="datepicker" id="d1">
     </div>
+
+
 
 
     <script type="text/javascript">
@@ -83,6 +85,9 @@
         label: {
           apple: "Apple",
           orange: "Orange",
+          rating: "Rating:",
+          respondedon: "Responded on:",
+          feedback: "Feed back",
         }
       };
 
@@ -90,6 +95,9 @@
         label: {
           apple: "Pomme",
           orange: "Orange",
+          rating: "Évaluation:",
+          respondedon: "Répondu le",
+          feedback: "Retour d'information",
         }
       }
 
@@ -97,7 +105,8 @@
     </script>
 
     <script type="text/javascript">
-      var options = ["-- Please Select --", "★", "★★", "★★★", "★★★★"];
+      var options_en = ["-- Please Select --", "★", "★★", "★★★", "★★★★"];
+      var options_fr = ["-- Please Select --", "★", "★★", "★★★", "★★★★"];
       setOptions("sel_rating", options);
 
       // datepicker
@@ -132,10 +141,10 @@
         }
       }
 
-      function translate(langJson) {
+      function translate(dictionary) {
         var elements = document.querySelectorAll("[data-translate]");
         elements.forEach((e) => {
-          var word = e.dataset.translate.split('.').reduce((json, key) => json[key], langJson);
+          var word = e.dataset.translate.split('.').reduce((dic, key) => dic[key], dictionary);
           if (word) {
             e.innerText = word;
           }
