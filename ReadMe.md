@@ -3,3 +3,6 @@
 ### Problem:
 Support English and French in a web page with pure js only.
 
+
+## Reference 
+andreasremdt/../translator.js

@@ -50,11 +50,11 @@
     <div>
       <div>
           <input type="checkbox" id="chk_a" value="">
-          <label for="chk_a"><strong>Apple</strong></label>
+          <strong><label for="chk_a" data-translate="label.apple" id="la">Apple</label></strong>
       </div>
       <div>
           <input type="checkbox" id="chk_o" value="">
-          <label for="chk_o"><strong>Orange</strong></label>
+          <label for="chk_o" data-translate="label.orange" id="lo"><strong>Orange</strong></label>
       </div>
     </div>
 
@@ -77,6 +77,25 @@
       <input type="text" name="datepicker" id="d1">
     </div>
 
+
+    <script type="text/javascript">
+      var en_json = {
+        label: {
+          apple: "Apple",
+          orange: "Orange",
+        }
+      };
+
+      var fr_json = {
+        label: {
+          apple: "Pomme",
+          orange: "Orange",
+        }
+      }
+
+
+    </script>
+
     <script type="text/javascript">
       var options = ["-- Please Select --", "★", "★★", "★★★", "★★★★"];
       setOptions("sel_rating", options);
@@ -85,11 +104,13 @@
       $('#d1').datepicker({dateFormat: "mm-dd-yy"});
 
 
+      // setup on change for sel_lang
+      $('#sel_lang').change(function() {
+        updateLanguage($('#sel_lang').val());
+      });
 
-      function setOptions(selectId, optionsArr)
-      {
-        if (selectId)
-        {
+      function setOptions(selectId, optionsArr) {
+        if (selectId) {
           var select = document.getElementById(selectId);
           select.innerText = null;
 
@@ -97,8 +118,30 @@
             select.add(new Option(e));
           });
         }
-
       }
+
+      function updateLanguage(lang) {
+        if (lang === "En") {
+          translate(en_json);
+          console.info("Changed to English");
+        } else if (lang === "Fr") {
+          translate(fr_json);
+          console.info("Changed to French");
+        } else {
+          console.error("Unknow language:", lang);
+        }
+      }
+
+      function translate(langJson) {
+        var elements = document.querySelectorAll("[data-translate]");
+        elements.forEach((e) => {
+          var word = e.dataset.translate.split('.').reduce((json, key) => json[key], langJson);
+          if (word) {
+            e.innerText = word;
+          }
+        });
+      }
+
     </script>
 
 
