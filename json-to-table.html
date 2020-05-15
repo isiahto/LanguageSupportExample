@@ -14,8 +14,7 @@
         crossorigin="anonymous"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
     <style type="text/css">
       * {
@@ -27,18 +26,6 @@
         border-style: solid;
         border-width: 2px;
       }
-
-      .svg-icon {
-        width: 1em;
-        height: 1em;
-      }
-
-      .svg-icon path,
-      .svg-icon polygon,
-      .svg-icon rect {
-        fill: #808080;
-      }
-
     </style>
   </head>
 
@@ -57,7 +44,7 @@
       </select>
     </div>
 
-    <div class="border">
+    <div class="border" id="input1">
       <h4>input area</h4>
       Name: <input type="text" id="txt_name">
       DOB: <input type="text" id="txt_dob">
@@ -68,7 +55,7 @@
     <div class="border">
       <table>
         <thead>
-          <th>r</th>
+          <th></th>
           <th>Name</th>
           <th>DOB</th>
           <th>Alive</th>
@@ -96,33 +83,19 @@
         return false;
       }
 
-
-
-
       function addUserData(inputIds) {
-        
+
         var tr = document.createElement('tr');
         var trid = "tr" + getRowId();
         tr.id = trid;
 
         // delete button
         tr.appendChild(createRemoveInput(trid));
-        /*
-        1. delete button
-        2. Name
-        3. DOB
-        4. Alive
-        var inputIds = ['txt_..', ...];
-        */
 
+        // the data
         inputIds.forEach( function(element, index) {
           addTDtoTR(tr, element);
         });
-
-        // addTDtoTR(tr, 'txt_name');
-        // addTDtoTR(tr, 'txt_dob');
-        // addTDtoTR(tr, 'chk_alive');
-
       
         document.getElementById('tb').appendChild(tr);
       }
@@ -192,7 +165,7 @@
         return createTd(lab);
       }
 
-
+      // tested
       function getRowId() {
         var counter = document.getElementById('hid_rowid');
         var n = parseInt(counter.value);
@@ -203,7 +176,10 @@
 
 
       var inputArr = ['txt_name','txt_dob','chk_alive'];
-      $('#btn_add').click(() => addUserData(inputArr));
+      var btn = document.getElementById('btn_add');
+      btn.onclick = function() {
+        return addUserData(inputArr);
+      }
 
     </script>
   </body>
