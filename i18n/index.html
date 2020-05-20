@@ -1,0 +1,214 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>i18n x data-attribute</title>
+    <!-- <meta name="description" content="The HTML5 Herald"> -->
+    <!-- <meta name="author" content="SitePoint"> -->
+
+    <script
+        src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+        crossorigin="anonymous"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <style type="text/css">
+      * {
+        font-family: 'Roboto', sans-serif;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div>
+      <h2>i18n Support using Data Attributes</h2>
+    </div>
+
+    <hr/>
+    <!-- Language switch -->
+    <div>
+      <select id="sel_lang">
+        <option selected="">En</option>
+        <option>Fr</option>
+      </select>
+    </div>
+
+    
+
+    <hr/>
+    <!-- Plain text in Header -->
+    <div>
+      <h4>Checkbox options that your life depends on:</h4>
+    </div>
+    <!-- Inline checkbox structure (with bootstrap) -->
+    <div>
+      <div>
+          <input type="checkbox" id="chk_a" value="">
+          <strong><label for="chk_a" data-translate="label.apple" id="la">Apple</label></strong>
+      </div>
+      <div>
+          <input type="checkbox" id="chk_o" value="">
+          <strong><label for="chk_o" data-translate="label.orange" id="lo">Orange</label></strong>
+      </div>
+    </div>
+
+    <hr/>
+    <!-- Plain text under a div -->
+    <div data-translate="label.feedback">
+      Feed back
+    </div>
+
+    <hr/>
+    <div>
+      <!-- Plain text in a label, and its option -->
+      <label data-translate="label.rating">Rating:</label> 
+      <select id="sel_rating">
+      </select>
+    </div>
+
+    <div>
+      <span data-translate="label.respondedon">Responded on:</span>
+      <input type="text" name="datepicker" id="d1">
+    </div>
+
+
+    <script type="text/javascript">
+      /* French initialisation for the jQuery UI date picker plugin. */
+      /* Written by Keith Wood (kbwood{at}iinet.com.au),
+              Stéphane Nahmani (sholby@sholby.net),
+              Stéphane Raimbault <stephane.raimbault@gmail.com> */
+      ( function( factory ) {
+        if ( typeof define === "function" && define.amd ) {
+
+          // AMD. Register as an anonymous module.
+          define( [ "../widgets/datepicker" ], factory );
+        } else {
+
+          // Browser globals
+          factory( jQuery.datepicker );
+        }
+      }( function( datepicker ) {
+
+      datepicker.regional.fr = {
+        closeText: "Fermer",
+        prevText: "Précédent",
+        nextText: "Suivant",
+        currentText: "Aujourd'hui",
+        monthNames: [ "janvier", "février", "mars", "avril", "mai", "juin",
+          "juillet", "août", "septembre", "octobre", "novembre", "décembre" ],
+        monthNamesShort: [ "janv.", "févr.", "mars", "avr.", "mai", "juin",
+          "juil.", "août", "sept.", "oct.", "nov.", "déc." ],
+        dayNames: [ "dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi" ],
+        dayNamesShort: [ "dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam." ],
+        dayNamesMin: [ "D","L","M","M","J","V","S" ],
+        weekHeader: "Sem.",
+        dateFormat: "dd/mm/yy",
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: "" };
+      datepicker.setDefaults( datepicker.regional.fr );
+
+      return datepicker.regional.fr;
+
+      } ) );
+    </script>
+
+    <script type="text/javascript">
+      var en_json = {
+        label: {
+          apple: "Apple",
+          orange: "Orange",
+          rating: "Rating:",
+          respondedon: "Responded on:",
+          feedback: "Feed back",
+        }
+      };
+
+      var fr_json = {
+        label: {
+          apple: "Pomme",
+          orange: "Orange",
+          rating: "Évaluation:",
+          respondedon: "Répondu le",
+          feedback: "Retour d'information",
+        }
+      }
+
+
+    </script>
+
+    <script type="text/javascript">
+      var options_en = ["-- Please Select --", "★", "★★", "★★★", "★★★★"];
+      var options_fr = ["-- Veuillez sélectionner --", "★", "★★", "★★★", "★★★★"];
+      setOptions("sel_rating", options_en);
+
+      // datepicker
+      $('#d1').datepicker({dateFormat: "mm-dd-yy"});
+
+
+      // setup on change for sel_lang
+      $('#sel_lang').change(function() {
+        updateLanguage($('#sel_lang').val());
+      });
+
+      function setOptions(selectId, optionsArr) {
+        if (selectId) {
+          var select = document.getElementById(selectId);
+          select.innerText = null;
+
+          optionsArr.forEach(e => {
+            select.add(new Option(e));
+          });
+        }
+      }
+
+      function updateLanguage(lang) {
+        if (lang === "En") {
+          translate(en_json);
+          translateDropDownOptions(options_en);
+          updateDatePickerLocale(""); // apparently JQuery Datepicker takes "" (empty string) for english
+          console.info("Changed to English");
+
+        } else if (lang === "Fr") {
+          translate(fr_json);
+          translateDropDownOptions(options_fr);
+          updateDatePickerLocale("fr");
+          console.info("Changed to French");
+
+        } else {
+          console.error("Unknow language:", lang);
+        }
+      }
+
+      function translate(dictionary) {
+        var elements = document.querySelectorAll("[data-translate]");
+        elements.forEach((e) => {
+          var word = e.dataset.translate.split('.').reduce((dic, key) => dic[key], dictionary);
+          if (word) {
+            e.innerText = word;
+          }
+        });
+      }
+
+      function translateDropDownOptions(translatedOptions) {
+        setOptions("sel_rating", translatedOptions);
+      }
+
+      function updateDatePickerLocale(locale) {
+        $('#d1').datepicker("option", $.datepicker.regional[locale]);
+      }
+
+    </script>
+
+
+    <div style="height:500px;">
+    </div>
+  </body>
+</html>
