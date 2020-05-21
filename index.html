@@ -4,10 +4,13 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Json to table</title>
+    <title>Cloning Div</title>
     <!-- <meta name="description" content="The HTML5 Herald"> -->
     <!-- <meta name="author" content="SitePoint"> -->
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script
         src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
@@ -22,165 +25,114 @@
       }
 
 
-      .border {
+      div.r {
         border-style: solid;
+        border-color: red;
         border-width: 2px;
       }
+
+      div.b {
+        border-style: solid;
+        border-color: green;
+        border-width: 2px;
+      }
+
+      label.l-sm {
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+
     </style>
   </head>
 
   <body>
+    <div class="container">
+      <div class="row border border-danger">
+        <div class="col-6 border border-primary">
+          half
+        </div>
+        <div class="col-6 border border-success">
+          another half
+        </div>
+      </div>
 
-    <div>
-      <h2>Json to table</h2>
-    </div>
+      <div style="height: 200px;">
+      </div>
 
-    <hr/>
-    <!-- Language switch -->
-    <div>
-      <select id="sel_lang">
-        <option selected="">En</option>
-        <option>Fr</option>
-      </select>
-    </div>
+      <!-- display div -->
+      <div class="r" style="margin: 0px -15px;">
 
-    <div class="border" id="input1">
-      <h4>input area</h4>
-      Name: <input type="text" id="txt_name">
-      DOB: <input type="text" id="txt_dob">
-      Alive: <input type="checkbox" id="chk_alive">
-      <button id="btn_add">Add</button>
-    </div>
+      <div class="row">
+        <div class="col-8">
+          <label class="l-sm">Product:</label>
+          <!-- <select id="ddl_products"></select> -->
+          <strong><label>Peeled Oranges</label></strong>
+        </div>
+        <div class="col-2">
+          <label class="l-sm">N:</label>
+          <strong><label>20</label></strong>
+        </div>
+      </div>
+      <div class="row">
 
-    <div class="border">
-      <table>
-        <thead>
-          <th></th>
-          <th>Name</th>
-          <th>DOB</th>
-          <th>Alive</th>
-        </thead>
-        <tbody id="tb">
-          <tr id="tr-1">
-            <td><a onclick='return del();'>X</a></td>
-            <td>t</td>
-            <td>t</td>
-            <td>test</td>
-          </tr>
-
-        </tbody>
-      </table>
-      <input type="hidden" value="0" id="hid_rowid">
-    </div>
+        <div class="col-6">
+          <div class="form-row">
+            <div class="col-4">
+              <label class="l-sm">Discount:</label>
+              <strong><label>2%</label></strong>
+            </div>
+            
+            <div class="col-8">
+              <label class="l-sm">Above amount:</label>
+              <strong><label>$ 100</label></strong>
+            </div>
+          </div>
+        </div>
 
 
-    <div id='tout' style="height:500px;">
+        <div class="col-6">
+          <div class="form-row">
+            <div class="col-4">
+              <label class="l-sm">Discount2:</label>
+              <strong><label>20%</label></strong>
+            </div>
+            
+            <div class="col-8">
+              <label class="l-sm">Above amount:</label>
+              <strong><label>$ 1000</label></strong>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-10">
+          <label class="l-sm">Recipient:</label>
+          <strong><label>My lovely grandma</label></strong>
+        </div>
+        <div class="col-2">
+          <label class="l-sm">Total Amount:</label>
+          <strong><label>$ 500</label></strong>
+        </div>
+      </div>
+
+      </div>
+      <!-- display div -->
+
     </div>
 
     <script>
-      function del() {
-        document.getElementById('tr-1').remove(); // good.
-        return false;
-      }
+      const products = ['peeled oranges', 'very loooooooong banana', 'seedless mangos', 'post-melon', 'bucketful of blueberries'];
+      // init ddl_products
+      var ddl = document.getElementById('ddl_products');
+      ddl.innerText = null;
 
-      function addUserData(inputIds) {
-
-        var tr = document.createElement('tr');
-        var trid = "tr" + getRowId();
-        tr.id = trid;
-
-        // delete button
-        tr.appendChild(createRemoveInput(trid));
-
-        // the data
-        inputIds.forEach( function(element, index) {
-          addTDtoTR(tr, element);
-        });
-      
-        document.getElementById('tb').appendChild(tr);
-      }
+      products.forEach( function(element, index) { 
+        ddl.add(new Option(element));
+      });
 
 
-      function addTDtoTR(tr, inputId) {
-        if (!tr || !inputId) {
-          console.error('[addTDtoTR] null input detected')
-          return;
-        }
-
-        // get inputId type (LEFT(inputId, 3)); -> chk / txt
-
-        var type = inputId.substring(0, 3);
-
-        switch (type)
-        {          
-          case 'chk':
-            var isChecked = document.getElementById(inputId).checked;
-            tr.appendChild(createTdwithCheckbox(isChecked));
-            return;
-          case 'sel':
-          case 'txt':
-            var text = document.getElementById(inputId).value;
-            tr.appendChild(createTdWithLabel(text));
-            return;
-          default:
-            console.error('unexpected type:', type);
-            tr.appendChild(createLabel());
-            return;
-        }
-      }
-
-      function createRemoveInput(trid) {
-        // Remove Input: <a>
-        var removeInput = document.createElement('a');
-        removeInput.innerText = 'X';
-        removeInput.onclick = createOnclickForRemoval(trid);
-        return createTd(removeInput);
-      }
-
-      function createOnclickForRemoval(trid) {
-        return function() {
-          document.getElementById(trid).remove();
-        }
-      }
-
-      function createTd(node) {
-        var td = document.createElement('td');
-        td.appendChild(node);
-        return td;
-      }
-
-      // tested
-      function createTdwithCheckbox(value) {
-        var chk = document.createElement('input');
-        chk.setAttribute('type', 'checkbox');
-        chk.setAttribute('disabled', 'true');
-        chk.checked = !!value;
-        return createTd(chk);
-      }
-
-      // tested
-      function createTdWithLabel(value) {
-        var lab = document.createElement('label');
-        lab.innerText = value ? value : '';
-        return createTd(lab);
-      }
-
-      // tested
-      function getRowId() {
-        var counter = document.getElementById('hid_rowid');
-        var n = parseInt(counter.value);
-        counter.value = n + 1;
-        return n;
-      }
-
-
-
-      var inputArr = ['txt_name','txt_dob','chk_alive'];
-      var btn = document.getElementById('btn_add');
-      btn.onclick = function() {
-        return addUserData(inputArr);
-      }
-
-    </script>
+    </script>    
   </body>
 </html>
