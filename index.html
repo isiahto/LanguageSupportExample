@@ -66,7 +66,7 @@
           <div class="col-8">
             <div class="input-group input-group-sm form-inline">
               <label class="l-sm">Product:</label>
-              <select class="form-control form-control-sm ml-2">
+              <select id="ddl_products" class="form-control form-control-sm ml-2">
                 <option>Peeled Oranges</option>
               </select>
             </div>
@@ -154,7 +154,7 @@
         <!-- buttons -->
         <div class="row">
           <div class="col-2 offset-10">
-            <button class="btn btn-sm btn-primary" style="float: right;">Add a product</button>
+            <button class="btn btn-sm btn-primary" style="float: right;" id="btn_add">Add a product</button>
           </div>
         </div>
 
@@ -162,67 +162,116 @@
       <!-- input div -->
 
       <!-- display div -->
-      <div class="r" style="margin: 0px -15px; padding: 0px 15px;">
-
-      <div class="row">
-        <div class="col-8">
-          <label class="l-sm">Product:</label>
-          <!-- <select id="ddl_products"></select> -->
-          <strong><label>Peeled Oranges</label></strong>
+      <div id="div_cloner" class="r" style="margin: 0px -15px; padding: 0px 15px;">
+        <div class="row">
+          <div class="col-8">
+            <label class="l-sm">Product:</label>
+            <!-- <select id="ddl_products"></select> -->
+            <strong><label id="lbl_product">Peeled Oranges</label></strong>
+          </div>
+          <div class="col-2">
+            <label class="l-sm">N:</label>
+            <strong><label id="lbl_n">20</label></strong>
+          </div>
         </div>
-        <div class="col-2">
-          <label class="l-sm">N:</label>
-          <strong><label>20</label></strong>
-        </div>
-      </div>
-      <div class="row">
+        <div class="row">
 
-        <div class="col-6">
-          <div class="form-row">
-            <div class="col-4">
-              <label class="l-sm">Discount:</label>
-              <strong><label>2%</label></strong>
+          <div class="col-6">
+            <div class="form-row">
+              <div class="col-4">
+                <label class="l-sm">Discount:</label>
+                <strong><label id="lbl_d1">2%</label></strong>
+              </div>
+              
+              <div class="col-8">
+                <label class="l-sm">Above amount:</label>
+                <strong><label id="lbl_d1amount">$ 100</label></strong>
+              </div>
             </div>
-            
-            <div class="col-8">
-              <label class="l-sm">Above amount:</label>
-              <strong><label>$ 100</label></strong>
+          </div>
+
+          <div class="col-6">
+            <div class="form-row">
+              <div class="col-4">
+                <label class="l-sm">Discount2:</label>
+                <strong><label id="lbl_d2">20%</label></strong>
+              </div>
+              
+              <div class="col-8">
+                <label class="l-sm">Above amount:</label>
+                <strong><label id="lbl_d2amount">$ 1000</label></strong>
+              </div>
             </div>
           </div>
         </div>
-
-
-        <div class="col-6">
-          <div class="form-row">
-            <div class="col-4">
-              <label class="l-sm">Discount2:</label>
-              <strong><label>20%</label></strong>
-            </div>
-            
-            <div class="col-8">
-              <label class="l-sm">Above amount:</label>
-              <strong><label>$ 1000</label></strong>
-            </div>
+        <div class="row">
+          <div class="col-9">
+            <label class="l-sm">Recipient:</label>
+            <strong><label id="lbl_to">My lovely grandma</label></strong>
+          </div>
+          <div class="col-3">
+            <label class="l-sm">Total Amount:</label>
+            <strong><label id="lbl_toamount">$ 500</label></strong>
           </div>
         </div>
-
-      </div>
-
-      <div class="row">
-        <div class="col-10">
-          <label class="l-sm">Recipient:</label>
-          <strong><label>My lovely grandma</label></strong>
-        </div>
-        <div class="col-2">
-          <label class="l-sm">Total Amount:</label>
-          <strong><label>$ 500</label></strong>
-        </div>
-      </div>
 
       </div>
       <!-- display div -->
 
     </div>
+
+    <!-- Repeating logic (from button onclick) -->
+    <script>
+      var btn = document.getElementById('btn_add');
+      btn.onclick = function() {
+        return onAddClicked() && false;
+      }
+
+      function onAddClicked() {
+        console.debug('onAddClicked');
+
+        // fetch all the data from the inputs, load them into the labels
+        loadDataToLabels();
+        // **clear the input fields 
+        clearInputs();
+        // clone the div
+        // remove the ids
+        // change to visible
+        // div.appendChild(clonedNode)
+        // **clear the label-div
+        
+      }
+      function clearInputs() {
+        console.debug('clearInputs');
+      }
+
+
+      function loadDataToLabels() {
+        console.debug('loadDataToLabels');
+        document.getElementById('lbl_product').innerText  = getSelectedProduct();
+        document.getElementById('lbl_n').innerText        = getMoneyString(21);
+        document.getElementById('lbl_d1').innerText       = getPercentageString(21);
+        document.getElementById('lbl_d1amount').innerText = getMoneyString(101);
+        document.getElementById('lbl_d2').innerText       = getPercentageString(21);
+        document.getElementById('lbl_d2amount').innerText = getMoneyString(1001);
+        document.getElementById('lbl_to').innerText       = "Someone special...";
+        document.getElementById('lbl_toamount').innerText = getMoneyString(5001);
+      }
+
+      function getPercentageString(v) {
+        return v + "%";
+      }
+      function getMoneyString(a) {
+        return "$ " + a;
+      }
+      function getSelectedProduct() {
+        var ddl = document.getElementById('ddl_products');        
+        return ddl[ddl.selectedIndex].innerText;
+      }
+
+
+    </script>
+
 
     <script>
       const products = ['peeled oranges', 'very loooooooong banana', 'seedless mangos', 'post-melon', 'bucketful of blueberries'];
