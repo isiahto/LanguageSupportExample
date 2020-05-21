@@ -162,7 +162,7 @@
       <!-- input div -->
 
       <!-- display div -->
-      <div id="div_cloner" class="r" style="margin: 0px -15px; padding: 0px 15px;">
+      <div id="div_cloner" class="r" style="display: none; margin: 0px -15px; padding: 0px 15px;">
         <div class="row">
           <div class="col-8">
             <label class="l-sm">Product:</label>
@@ -216,6 +216,7 @@
         </div>
 
       </div>
+      <div id="div_cloneTo"></div>
       <!-- display div -->
 
     </div>
@@ -235,16 +236,36 @@
         // **clear the input fields 
         clearInputs();
         // clone the div
-        // remove the ids
+        // set up cloned(): remove the ids & set visible
         // change to visible
+        var cloned = cloneAndSetupDiv('div_cloner');
+
+        var div = document.getElementById('div_cloneTo');
+        div.insertAdjacentElement('beforebegin', cloned);
         // div.appendChild(clonedNode)
-        // **clear the label-div
         
       }
+
+      function cloneAndSetupDiv(divId) {
+        var d = document.getElementById(divId);
+        var cloned = d.cloneNode(true);
+
+        // clear elements' ids.
+        var elements = cloned.querySelectorAll('[id]');
+        elements.forEach(function(e) {
+          e.id = "";
+        });
+        // clear the div's id
+        cloned.id = "";
+        // set visible (from "none" to "" (default))
+        cloned.style.display = "";
+
+        return cloned;
+      }
+
       function clearInputs() {
         console.debug('clearInputs');
       }
-
 
       function loadDataToLabels() {
         console.debug('loadDataToLabels');
